@@ -1,0 +1,10 @@
+CREATE TABLE `todoappjava`.`users` (`id` INT NOT NULL AUTO_INCREMENT , `name` VARCHAR(50) NOT NULL , `email` VARCHAR(50) NOT NULL , `password` VARCHAR(50) NOT NULL , PRIMARY KEY (`id`), UNIQUE (`email`)) ENGINE = InnoDB;
+
+CREATE TABLE `todoappjava`.`projects` (`id` INT NOT NULL AUTO_INCREMENT , `name` VARCHAR(50) NOT NULL , `description` VARCHAR(255) NULL , `dateCreated` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP , `dateLastUpdate` DATETIME NULL , `IdOwnerUser` INT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+
+ALTER TABLE `projects` ADD CONSTRAINT `fk_users` FOREIGN KEY (`IdOwnerUser`) REFERENCES `users`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+CREATE TABLE `todoappjava`.`tasks` (`id` INT NOT NULL AUTO_INCREMENT , `name` VARCHAR(50) NOT NULL , `description` VARCHAR(255) NULL , `dateCreated` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP , `dateLastUpdate` DATETIME NULL , `idProject` INT NOT NULL , `notes` VARCHAR(50) NULL , `deadline` DATETIME NOT NULL , `completed` BOOLEAN NOT NULL DEFAULT FALSE , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+
+ALTER TABLE `tasks` ADD CONSTRAINT `fk_projects` FOREIGN KEY (`idProject`) REFERENCES `projects`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
