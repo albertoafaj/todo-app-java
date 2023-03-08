@@ -20,6 +20,9 @@ dependencies {
     // Use JUnit Jupiter for testing.
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.1'
 
+    // https://mvnrepository.com/artifact/mysql/mysql-connector-java
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.32'
+
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:31.1-jre'
 }
