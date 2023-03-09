@@ -35,9 +35,8 @@ public class TaskController {
         } catch (SQLException error) {
             throw new RuntimeException("Erro ao salvar a tarefa" + error.getMessage(), error);
         } finally {
-            ConnectionFactory.closeConnection(conn);
+            ConnectionFactory.closeConnection(conn, statement);
         }
-
     }
 
     public void update(Task task) {
@@ -53,16 +52,15 @@ public class TaskController {
             statement = conn.prepareStatement(sql);
             statement.setInt(1, taskId);
             statement.execute();
-        } catch (SQLException error) {
-            throw new SQLException("Erro ao deletar a tarefa", error);
+        } catch (Exception error) {
+            throw new RuntimeException("Erro ao deletar a tarefa", error);
         } finally {
-            ConnectionFactory.closeConnection(conn);
+            ConnectionFactory.closeConnection(conn, statement);
         }
     }
 
     public List<Task> getAll(int idProject) {
         return null;
 
-    }
-;
+    };
 }
