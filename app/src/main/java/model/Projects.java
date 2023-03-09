@@ -20,6 +20,9 @@ public class Projects {
         this.IdOwnerUser = IdOwnerUser;
     }
 
+    public Projects() {
+    }
+
     public int getId() {
         return id;
     }
