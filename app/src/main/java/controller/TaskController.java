@@ -56,7 +56,7 @@ public class TaskController {
         Connection conn = null;
         PreparedStatement statement = null;
         try {
-            ConnectionFactory.getConnection();
+            conn = ConnectionFactory.getConnection();
             statement = conn.prepareStatement(sql);
             statement.setInt(1, task.getIdProject());
             statement.setString(2, task.getName());
