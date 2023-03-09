@@ -27,6 +27,7 @@ public class TaskController {
             conn = ConnectionFactory.getConnection();
             statement = conn.prepareStatement(sql);
             statement.setInt(1, task.getIdProject());
+            statement.setString(2, task.getName());
             statement.setString(3, task.getDescription());
             statement.setString(4, task.getNotes());
             statement.setDate(5, new Date(task.getDeadline().getTime()));
@@ -40,6 +41,34 @@ public class TaskController {
     }
 
     public void update(Task task) {
+        String sql = "UPDATE tasks SET"
+                + "idProject = ?"
+                + "name = ?"
+                + "description = ?"
+                + "notes = ?"
+                + "deadline = ?"
+                + "dateCreated = ?"
+                + "dateLastUpdate  = ?"
+                + "WHERE id = ?";
+
+        Connection conn = null;
+        PreparedStatement statement = null;
+        try {
+            ConnectionFactory.getConnection();
+            statement = conn.prepareStatement(sql);
+            statement.setInt(1, task.getIdProject());
+            statement.setString(2, task.getName());
+            statement.setString(3, task.getDescription());
+            statement.setString(4, task.getNotes());
+            statement.setDate(5, new Date(task.getDeadline().getTime()));
+            statement.setDate(6, new Date(task.getDateCreated().getTime()));
+            statement.setDate(7, new Date(task.getDateLastUpdate().getTime()));
+            statement.execute();
+        } catch (Exception error) {
+            throw new RuntimeException("Erro ao editar a tarefa" + error.getMessage(), error);
+        } finally {
+            ConnectionFactory.closeConnection(conn, statement);
+        }
 
     }
 
