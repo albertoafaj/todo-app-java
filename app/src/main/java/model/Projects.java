@@ -7,15 +7,15 @@ public class Projects {
     private int id;
     private String name;
     private String description;
-    private Date createCreated;
+    private Date dateCreated;
     private Date dateLastUpdate;
     private int IdOwnerUser;
 
-    public Projects(int id, String name, String description, Date createCreated, Date dateLastUpdate, int IdOwnerUser) {
+    public Projects(int id, String name, String description, Date dateCreated, Date dateLastUpdate, int IdOwnerUser) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.createCreated = createCreated;
+        this.dateCreated = dateCreated;
         this.dateLastUpdate = dateLastUpdate;
         this.IdOwnerUser = IdOwnerUser;
     }
@@ -44,12 +44,12 @@ public class Projects {
         this.description = description;
     }
 
-    public Date getCreateCreated() {
-        return createCreated;
+    public Date getDateCreated() {
+        return dateCreated;
     }
 
-    public void setCreateCreated(Date createCreated) {
-        this.createCreated = createCreated;
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
     }
 
     public Date getDateLastUpdate() {
@@ -70,7 +70,8 @@ public class Projects {
 
     @Override
     public String toString() {
-        return "Projects{" + "id=" + id + ", name=" + name + ", description=" + description + ", createCreated=" + createCreated + ", dateLastUpdate=" + dateLastUpdate + ", IdOwnerUser=" + IdOwnerUser + '}';
+        return "Projects{" + "id=" + id + ", name=" + name + ", description=" + description + ", dateCreated="
+                + dateCreated + ", dateLastUpdate=" + dateLastUpdate + ", IdOwnerUser=" + IdOwnerUser + '}';
     }
-    
+
 }

@@ -22,7 +22,7 @@ public class TaskController {
                 + "description"
                 + "notes"
                 + "deadline"
-                + "dateLastUpdate) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                + "dateLastUpdate) VALUES (?, ?, ?, ?, ?, ?)";
         Connection conn = null;
         PreparedStatement statement = null;
         try {
