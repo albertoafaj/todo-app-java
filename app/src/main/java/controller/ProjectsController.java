@@ -60,7 +60,32 @@ public class ProjectsController {
     } finally {
       ConnectionFactory.closeConnection(conn, statement, resultSet);
     }
+    ;
 
     return projects;
   }
+
+  public void update(Projects project) {
+    Connection conn = null;
+    PreparedStatement statement = null;
+    String sql = "UPDATE projects SET"
+        + "name = ?"
+        + "description = ?"
+        + "dateLastUpdate  = ?"
+        + "WHERE id = ?";
+
+    try {
+      conn = ConnectionFactory.getConnection();
+      statement = conn.prepareStatement(sql);
+      statement.setString(1, project.getName());
+      statement.setString(2, project.getDescription());
+      statement.setDate(3, new Date(project.getDateLastUpdate().getTime()));
+      statement.execute();
+
+    } catch (Exception error) {
+      throw new RuntimeException("Erro ao atualizar o projeto", error);
+    } finally {
+      ConnectionFactory.closeConnection(conn, statement);
+    }
+  };
 }
