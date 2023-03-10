@@ -34,7 +34,7 @@ public class ProjectsController {
     }
   }
 
-  public List<Projects> getAll(int id) {
+  public List<Projects> getAll() {
     String sql = "SELECT * FROM projects";
     Connection conn = null;
     PreparedStatement statement = null;
