@@ -13,6 +13,9 @@ public class Users {
         this.password = password;
     }
 
+    public Users() {
+    }
+
     public int getId() {
         return id;
     }
@@ -49,6 +52,5 @@ public class Users {
     public String toString() {
         return "Users{" + "id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + '}';
     }
-    
-    
+
 }

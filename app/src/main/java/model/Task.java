@@ -14,7 +14,8 @@ public class Task {
     private Date dateCreated;
     private Date dateLastUpdate;
 
-    public Task(int id, int idProject, String name, String description, String notes, boolean isCompleted, Date deadline, Date dateCreated, Date dateLastUpdate) {
+    public Task(int id, int idProject, String name, String description, String notes, boolean isCompleted,
+            Date deadline, Date dateCreated, Date dateLastUpdate) {
         this.id = id;
         this.idProject = idProject;
         this.name = name;
@@ -24,6 +25,9 @@ public class Task {
         this.deadline = deadline;
         this.dateCreated = dateCreated;
         this.dateLastUpdate = dateLastUpdate;
+    }
+
+    public Task() {
     }
 
     public int getId() {
@@ -100,7 +104,9 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" + "id=" + id + ", idProject=" + idProject + ", name=" + name + ", description=" + description + ", notes=" + notes + ", isCompleted=" + isCompleted + ", deadline=" + deadline + ", dateCreated=" + dateCreated + ", dateLastUpdate=" + dateLastUpdate + '}';
+        return "Task{" + "id=" + id + ", idProject=" + idProject + ", name=" + name + ", description=" + description
+                + ", notes=" + notes + ", isCompleted=" + isCompleted + ", deadline=" + deadline + ", dateCreated="
+                + dateCreated + ", dateLastUpdate=" + dateLastUpdate + '}';
     }
 
 }
