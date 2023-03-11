@@ -1,7 +1,6 @@
 package controller;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -12,10 +11,9 @@ import util.ConnectionFactory;
 
 public class ProjectsController {
   public void save(Projects project) {
-    String sql = "INSERT INTO projects ( name"
-        + "description"
-        + "dateLastUpdate"
-        + "IdOwnerUser) VALUES (?, ?, ?, ?)";
+    String sql = "INSERT INTO projects ( name,"
+        + "description,"
+        + "IdOwnerUser) VALUES (?, ?, ?)";
     Connection conn = null;
     PreparedStatement statement = null;
 
@@ -24,8 +22,7 @@ public class ProjectsController {
       statement = conn.prepareStatement(sql);
       statement.setString(1, project.getName());
       statement.setString(2, project.getDescription());
-      statement.setDate(3, new Date(project.getDateLastUpdate().getTime()));
-      statement.setInt(4, project.getIdOwnerUser());
+      statement.setInt(3, project.getIdOwnerUser());
       statement.execute();
     } catch (Exception error) {
       throw new RuntimeException("Erro ao tentar salvar o projeto", error);
@@ -68,18 +65,17 @@ public class ProjectsController {
   public void update(Projects project) {
     Connection conn = null;
     PreparedStatement statement = null;
-    String sql = "UPDATE projects SET"
-        + "name = ?"
-        + "description = ?"
-        + "dateLastUpdate  = ?"
-        + "WHERE id = ?";
+    String sql = "UPDATE projects SET name = ?, description = ?, dateLastUpdate  = ? WHERE id = ?";
 
     try {
+      java.util.Date today = new java.util.Date();
+      java.sql.Date getCurrentDatetime = new java.sql.Date(today.getTime());
       conn = ConnectionFactory.getConnection();
       statement = conn.prepareStatement(sql);
       statement.setString(1, project.getName());
       statement.setString(2, project.getDescription());
-      statement.setDate(3, new Date(project.getDateLastUpdate().getTime()));
+      statement.setDate(3, getCurrentDatetime);
+      statement.setInt(4, project.getId());
       statement.execute();
 
     } catch (Exception error) {
