@@ -17,12 +17,11 @@ import util.ConnectionFactory;
 public class TaskController {
 
     public void save(Task task) {
-        String sql = "INSERT INTO tasks ( idProject"
-                + "name"
-                + "description"
-                + "notes"
-                + "deadline"
-                + "dateLastUpdate) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO tasks ( idProject,"
+                + "name,"
+                + "description,"
+                + "notes,"
+                + "deadline) VALUES (?, ?, ?, ?, ?)";
         Connection conn = null;
         PreparedStatement statement = null;
         try {
@@ -33,7 +32,6 @@ public class TaskController {
             statement.setString(3, task.getDescription());
             statement.setString(4, task.getNotes());
             statement.setDate(5, new Date(task.getDeadline().getTime()));
-            statement.setDate(6, new Date(task.getDateLastUpdate().getTime()));
             statement.execute();
         } catch (SQLException error) {
             throw new RuntimeException("Erro ao salvar a tarefa" + error.getMessage(), error);
@@ -43,19 +41,20 @@ public class TaskController {
     }
 
     public void update(Task task) {
-        String sql = "UPDATE tasks SET"
-                + "idProject = ?"
-                + "name = ?"
-                + "description = ?"
-                + "notes = ?"
-                + "deadline = ?"
-                + "dateCreated = ?"
+        String sql = "UPDATE tasks "
+                + "SET idProject = ?,"
+                + "name = ?,"
+                + "description = ?,"
+                + "notes = ?,"
+                + "deadline = ?,"
                 + "dateLastUpdate  = ?"
                 + "WHERE id = ?";
 
         Connection conn = null;
         PreparedStatement statement = null;
         try {
+            java.util.Date today = new java.util.Date();
+            java.sql.Date getCurrentDatetime = new java.sql.Date(today.getTime());
             conn = ConnectionFactory.getConnection();
             statement = conn.prepareStatement(sql);
             statement.setInt(1, task.getIdProject());
@@ -63,8 +62,8 @@ public class TaskController {
             statement.setString(3, task.getDescription());
             statement.setString(4, task.getNotes());
             statement.setDate(5, new Date(task.getDeadline().getTime()));
-            statement.setDate(6, new Date(task.getDateCreated().getTime()));
-            statement.setDate(7, new Date(task.getDateLastUpdate().getTime()));
+            statement.setDate(6, getCurrentDatetime);
+            statement.setInt(7, task.getId());
             statement.execute();
         } catch (Exception error) {
             throw new RuntimeException("Erro ao editar a tarefa" + error.getMessage(), error);
@@ -74,7 +73,7 @@ public class TaskController {
 
     }
 
-    public void removeById(int taskId) throws SQLException {
+    public void removeById(int taskId) {
         String sql = "DELETE FROM tasks WHERE id = ?";
         Connection conn = null;
         PreparedStatement statement = null;
@@ -91,7 +90,7 @@ public class TaskController {
     }
 
     public List<Task> getAll(int idProject) {
-        String sql = "SELECT * FROM task WHERE idProject = ?";
+        String sql = "SELECT * FROM tasks WHERE idProject = ?";
         Connection conn = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -109,7 +108,7 @@ public class TaskController {
                 task.setName(resultSet.getString("name"));
                 task.setDescription(resultSet.getString("description"));
                 task.setNotes(resultSet.getString("notes"));
-                task.setIsCompleted(resultSet.getBoolean("isCompleted"));
+                task.setCompleted(resultSet.getBoolean("completed"));
                 task.setDateCreated(resultSet.getDate("dateCreated"));
                 task.setDateLastUpdate(resultSet.getDate("dateLastUpdate"));
                 tasks.add(task);
