@@ -10,9 +10,8 @@ import util.ConnectionFactory;
 
 public class UserController {
   public void save(Users user) {
-    String sql = "INSERT INTO users ( idProject"
-        + "name"
-        + "email"
+    String sql = "INSERT INTO users ( name,"
+        + "email,"
         + "password) VALUES (?, ?, ?)";
     Connection conn = null;
     PreparedStatement statement = null;
@@ -31,7 +30,7 @@ public class UserController {
   }
 
   public List<Users> getAll(int idUser) {
-    String sql = "SELECT * FROM task WHERE id = ?";
+    String sql = "SELECT * FROM users WHERE id = ?";
     Connection conn = null;
     PreparedStatement statement = null;
     ResultSet resultSet = null;
