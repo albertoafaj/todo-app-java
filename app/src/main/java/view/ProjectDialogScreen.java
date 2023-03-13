@@ -155,6 +155,7 @@ public class ProjectDialogScreen extends javax.swing.JDialog {
     private void jLabelTollBarSaveMouseClicked(java.awt.event.MouseEvent evt) {
         try {
             Projects project = new Projects();
+            project.setIdOwnerUser(1);
             project.setName(jTextFieldProjectName.getText());
             project.setDescription(jTextFieldProjectDescription.getText());
             controller.save(project);
