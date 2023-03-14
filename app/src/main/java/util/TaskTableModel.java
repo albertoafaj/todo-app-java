@@ -2,7 +2,6 @@ package util;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 import model.Task;
@@ -29,6 +28,10 @@ public class TaskTableModel extends AbstractTableModel {
   @Override
   public String getColumnName(int columnIndex) {
     return columns[columnIndex];
+  };
+
+  public boolean isCellEditable(int rowIndex, int columnIndex) {
+    return columnIndex == 3;
   };
 
   @Override
