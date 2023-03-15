@@ -384,7 +384,9 @@ public class MainScreen extends javax.swing.JFrame {
     private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jLabel7MouseClicked
         // TODO add your handling code here:
         TaskDialogScreen taskDialogScreen = new TaskDialogScreen(this, rootPaneCheckingEnabled);
-        taskDialogScreen.setProject(null);
+        int projectIndex = jListProject.getSelectedIndex();
+        Projects project = (Projects) projectsModel.get(projectIndex);
+        taskDialogScreen.setProject(project);
         taskDialogScreen.setVisible(true);
     }// GEN-LAST:event_jLabel7MouseClicked
 
