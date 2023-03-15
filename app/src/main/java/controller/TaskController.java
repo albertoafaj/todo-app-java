@@ -47,7 +47,8 @@ public class TaskController {
                 + "description = ?,"
                 + "notes = ?,"
                 + "deadline = ?,"
-                + "dateLastUpdate  = ?"
+                + "dateLastUpdate  = ?,"
+                + "completed  = ? "
                 + "WHERE id = ?";
 
         Connection conn = null;
@@ -63,7 +64,8 @@ public class TaskController {
             statement.setString(4, task.getNotes());
             statement.setDate(5, new Date(task.getDeadline().getTime()));
             statement.setDate(6, getCurrentDatetime);
-            statement.setInt(7, task.getId());
+            statement.setBoolean(7, task.getCompleted());
+            statement.setInt(8, task.getId());
             statement.execute();
         } catch (Exception error) {
             throw new RuntimeException("Erro ao editar a tarefa" + error.getMessage(), error);
@@ -107,6 +109,7 @@ public class TaskController {
                 task.setIdProject(resultSet.getInt("idProject"));
                 task.setName(resultSet.getString("name"));
                 task.setDescription(resultSet.getString("description"));
+                task.setDeadline(resultSet.getDate("deadline"));
                 task.setNotes(resultSet.getString("notes"));
                 task.setCompleted(resultSet.getBoolean("completed"));
                 task.setDateCreated(resultSet.getDate("dateCreated"));
