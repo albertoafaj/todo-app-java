@@ -14,6 +14,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import model.Projects;
 import model.Task;
+import util.ButtonColumnCellRenderer;
 import util.DeadlineColumnCellRenderer;
 import util.TaskTableModel;
 
@@ -545,6 +546,8 @@ public class MainScreen extends javax.swing.JFrame {
                 jTableTasks.getTableHeader().setForeground(new Color(255, 255, 255));
                 jTableTasks.getColumnModel().getColumn(2).setCellRenderer(new DeadlineColumnCellRenderer());
                 jTableTasks.setAutoCreateRowSorter(true);
+                jTableTasks.getColumnModel().getColumn(4).setCellRenderer(new ButtonColumnCellRenderer("edit"));
+                jTableTasks.getColumnModel().getColumn(5).setCellRenderer(new ButtonColumnCellRenderer("delete"));
         }
 
         public void initDataController() {
