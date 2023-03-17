@@ -26,12 +26,7 @@ O TodoApp tem como objetivo resolver a questão de organização de tarefas de u
 ```
 $ git clone https://github.com/albertoafaj/todo-app-java.git
 ```
-### Instalar as dependências:
-```
-
-```
 ### Instalar MySql
-
 
 #### Casdastrar Bancos de dados no MySQL
 
