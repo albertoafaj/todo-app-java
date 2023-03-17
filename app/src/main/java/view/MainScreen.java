@@ -4,8 +4,6 @@ package view;
 import java.awt.Color;
 import java.awt.Font;
 import java.util.List;
-import java.util.logging.LogManager;
-
 import javax.swing.DefaultListModel;
 
 import controller.ProjectsController;
@@ -29,7 +27,7 @@ public class MainScreen extends javax.swing.JFrame {
         TaskController taskController;
 
         DefaultListModel projectsModel;
-        TaskTableModel taskModel;
+        TaskTableModel taskTableModel;
 
         public MainScreen() {
                 initComponents();
@@ -102,7 +100,6 @@ public class MainScreen extends javax.swing.JFrame {
                 jTableTasks.setGridColor(java.awt.Color.white);
                 jTableTasks.setRowHeight(40);
                 jTableTasks.setSelectionBackground(new java.awt.Color(204, 255, 204));
-                jTableTasks.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
                 jTableTasks.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
                 jTableTasks.setShowHorizontalLines(true);
                 jTableTasks.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -418,7 +415,7 @@ public class MainScreen extends javax.swing.JFrame {
         private void jTableTasksMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jTableTasksMouseClicked
                 int rowIndex = jTableTasks.rowAtPoint(evt.getPoint());
                 int columnIndex = jTableTasks.columnAtPoint(evt.getPoint());
-                Task task = taskModel.getTasks().get(rowIndex);
+                Task task = taskTableModel.getTasks().get(rowIndex);
                 TaskDialogScreen taskDialogScreen = new TaskDialogScreen(this, rootPaneCheckingEnabled);
                 switch (columnIndex) {
                         case 3:
@@ -438,7 +435,7 @@ public class MainScreen extends javax.swing.JFrame {
                                 break;
                         case 5:
                                 taskController.removeById(task.getId());
-                                taskModel.getTasks().remove(task);
+                                taskTableModel.getTasks().remove(task);
                                 int projectIndex = jListProject.getSelectedIndex();
                                 Projects project = (Projects) projectsModel.get(projectIndex);
                                 loadTasks(project.getId());
@@ -452,8 +449,6 @@ public class MainScreen extends javax.swing.JFrame {
         private void jListProjectMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jListProjectMouseClicked
                 int projectIndex = jListProject.getSelectedIndex();
                 Projects project = (Projects) projectsModel.get(projectIndex);
-                taskModel = new TaskTableModel();
-                jTableTasks.setModel(taskModel);
                 loadTasks(project.getId());
         }// GEN-LAST:event_jListProjectMouseClicked
 
@@ -571,8 +566,8 @@ public class MainScreen extends javax.swing.JFrame {
         public void initComponentsModel() {
                 projectsModel = new DefaultListModel();
                 loadProjects();
-                taskModel = new TaskTableModel();
-                jTableTasks.setModel(taskModel);
+                taskTableModel = new TaskTableModel();
+                jTableTasks.setModel(taskTableModel);
                 if (!projectsModel.isEmpty()) {
                         jListProject.setSelectedIndex(0);
                         Projects project = (Projects) projectsModel.get(0);
@@ -596,7 +591,6 @@ public class MainScreen extends javax.swing.JFrame {
                                 jPanelEmptyList.setVisible(false);
                                 jPanel5.remove(jPanelEmptyList);
                         }
-                        jPanel5.remove(jScrollPaneTasks);
                         jPanel5.add(jScrollPaneTasks);
                         jScrollPaneTasks.setVisible(true);
                         jScrollPaneTasks.setSize(jPanel5.getWidth(), jPanel5.getHeight());
@@ -613,7 +607,7 @@ public class MainScreen extends javax.swing.JFrame {
 
         public void loadTasks(int idProject) {
                 List<Task> tasks = taskController.getAll(idProject);
-                taskModel.setTasks(tasks);
+                taskTableModel.setTasks(tasks);
                 showJTableTasks(!tasks.isEmpty());
         };
 }

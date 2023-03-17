@@ -96,7 +96,7 @@ public class TaskController {
         Connection conn = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        List<Task> tasks = new ArrayList<Task>();
+        List<Task> tasks = new ArrayList<>();
         try {
             conn = ConnectionFactory.getConnection();
             statement = conn.prepareStatement(sql);
