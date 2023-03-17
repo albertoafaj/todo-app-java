@@ -4,6 +4,7 @@ package view;
 import java.awt.Color;
 import java.awt.Font;
 import java.util.List;
+import java.util.logging.LogManager;
 
 import javax.swing.DefaultListModel;
 
@@ -415,15 +416,25 @@ public class MainScreen extends javax.swing.JFrame {
         }// </editor-fold>//GEN-END:initComponents
 
         private void jTableTasksMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jTableTasksMouseClicked
-
                 int rowIndex = jTableTasks.rowAtPoint(evt.getPoint());
                 int columnIndex = jTableTasks.columnAtPoint(evt.getPoint());
                 Task task = taskModel.getTasks().get(rowIndex);
+                TaskDialogScreen taskDialogScreen = new TaskDialogScreen(this, rootPaneCheckingEnabled);
                 switch (columnIndex) {
                         case 3:
                                 taskController.update(task);
                                 break;
                         case 4:
+                                taskDialogScreen.setTask(task);
+                                taskDialogScreen.setFieldsName(task);
+                                taskDialogScreen.setVisible(true);
+                                taskDialogScreen.addWindowListener(new WindowAdapter() {
+                                        public void windowClosed(WindowEvent e) {
+                                                int projectIndex = jListProject.getSelectedIndex();
+                                                Projects project = (Projects) projectsModel.get(projectIndex);
+                                                loadTasks(project.getId());
+                                        }
+                                });
                                 break;
                         case 5:
                                 taskController.removeById(task.getId());
@@ -441,6 +452,8 @@ public class MainScreen extends javax.swing.JFrame {
         private void jListProjectMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jListProjectMouseClicked
                 int projectIndex = jListProject.getSelectedIndex();
                 Projects project = (Projects) projectsModel.get(projectIndex);
+                taskModel = new TaskTableModel();
+                jTableTasks.setModel(taskModel);
                 loadTasks(project.getId());
         }// GEN-LAST:event_jListProjectMouseClicked
 
@@ -583,6 +596,7 @@ public class MainScreen extends javax.swing.JFrame {
                                 jPanelEmptyList.setVisible(false);
                                 jPanel5.remove(jPanelEmptyList);
                         }
+                        jPanel5.remove(jScrollPaneTasks);
                         jPanel5.add(jScrollPaneTasks);
                         jScrollPaneTasks.setVisible(true);
                         jScrollPaneTasks.setSize(jPanel5.getWidth(), jPanel5.getHeight());

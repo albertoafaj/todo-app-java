@@ -6,7 +6,10 @@ package view;
 
 import controller.TaskController;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 import javax.swing.JOptionPane;
 import model.Projects;
 import model.Task;
@@ -19,6 +22,7 @@ public class TaskDialogScreen extends javax.swing.JDialog {
 
         TaskController controller;
         Projects project;
+        Task taskUpdate;
 
         public TaskDialogScreen(java.awt.Frame parent, boolean modal) {
                 super(parent, modal);
@@ -37,7 +41,6 @@ public class TaskDialogScreen extends javax.swing.JDialog {
         // <editor-fold defaultstate="collapsed" desc="Generated
         // Code">//GEN-BEGIN:initComponents
         private void initComponents() {
-
                 jLabel1 = new javax.swing.JLabel();
                 jPanelToolBar = new javax.swing.JPanel();
                 jLabelToolBarTitle = new javax.swing.JLabel();
@@ -262,19 +265,27 @@ public class TaskDialogScreen extends javax.swing.JDialog {
         }// GEN-LAST:event_jTextFieldDescriptionActionPerformed
 
         private void jLabelToolBarSaveMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jLabelToolBarSaveMouseClicked
+                Task task = new Task();
+                if (taskUpdate != null)
+                        task = taskUpdate;
                 try {
                         if (isFieldsValid()) {
-                                Task task = new Task();
-                                task.setIdProject(project.getId());
                                 task.setName(jTextFieldName.getText());
                                 task.setDescription(jTextFieldDescription.getText());
                                 task.setNotes(jTextFieldNotes.getText());
-                                task.setCompleted(false);
                                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
                                 Date deadline = null;
                                 deadline = dateFormat.parse(jFormattedTextFieldDeadline.getText());
                                 task.setDeadline(deadline);
-                                controller.save(task);
+                                if (taskUpdate == null) {
+                                        task.setCompleted(false);
+                                        task.setIdProject(project.getId());
+                                        controller.save(task);
+                                } else {
+                                        task.setIdProject(task.getIdProject());
+                                        controller.update(task);
+                                }
+
                                 JOptionPane.showMessageDialog(rootPane, "Tarefa incluída com sucesso");
                                 this.dispose();
                         } else {
@@ -368,6 +379,10 @@ public class TaskDialogScreen extends javax.swing.JDialog {
                 this.project = project;
         }
 
+        public void setTask(Task task) {
+                this.taskUpdate = task;
+        }
+
         public void hideErrorFields() {
                 jLabelDeadlineError.setVisible(false);
                 jLabelNameError.setVisible(false);
@@ -377,4 +392,15 @@ public class TaskDialogScreen extends javax.swing.JDialog {
                 return !jFormattedTextFieldDeadline.getText().isEmpty() && !jTextFieldName.getText().isEmpty();
         }
 
+        public Task setFieldsName(Task taskUp) {
+                Task task = taskUp;
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                String deadline = null;
+                deadline = dateFormat.format(task.getDeadline());
+                jTextFieldName.setText(task.getName());
+                jFormattedTextFieldDeadline.setText(deadline);
+                jTextFieldDescription.setText(task.getDescription());
+                jTextFieldNotes.setText(task.getNotes());
+                return task;
+        }
 }

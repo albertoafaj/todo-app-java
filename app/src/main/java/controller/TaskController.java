@@ -126,4 +126,40 @@ public class TaskController {
         return tasks;
 
     };
+
+    public List<Task> getById(int id) {
+        String sql = "SELECT * FROM tasks WHERE id = ?";
+        Connection conn = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        List<Task> tasks = new ArrayList<Task>();
+        try {
+            conn = ConnectionFactory.getConnection();
+            statement = conn.prepareStatement(sql);
+            statement.setInt(1, id);
+            resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Task task = new Task();
+                task.setId(resultSet.getInt("id"));
+                task.setIdProject(resultSet.getInt("idProject"));
+                task.setName(resultSet.getString("name"));
+                task.setDescription(resultSet.getString("description"));
+                task.setDeadline(resultSet.getDate("deadline"));
+                task.setNotes(resultSet.getString("notes"));
+                task.setCompleted(resultSet.getBoolean("completed"));
+                task.setDateCreated(resultSet.getDate("dateCreated"));
+                task.setDateLastUpdate(resultSet.getDate("dateLastUpdate"));
+                tasks.add(task);
+            }
+            ;
+        } catch (Exception error) {
+            throw new RuntimeException("Erro ao buscar a tarefa", error);
+        } finally {
+            ConnectionFactory.closeConnection(conn, statement, resultSet);
+        }
+
+        return tasks;
+
+    };
 }
